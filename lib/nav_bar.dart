@@ -24,7 +24,7 @@ class NavBar extends StatelessWidget {
               onTap: () {
                 BlocProvider.of<PageCubit>(context)
                     .returnPage(PageType.homePage);
-                Navigator.of(context).pop(context);
+                //Navigator.of(context).pop(context);
               }),
           ListTile(
               tileColor: Colors.blue,
@@ -36,7 +36,7 @@ class NavBar extends StatelessWidget {
               onTap: () {
                 BlocProvider.of<PageCubit>(context)
                     .returnPage(PageType.secondPage);
-                Navigator.of(context).pop(context);
+                //Navigator.of(context).pop(context);
               }),
         ],
       ),
