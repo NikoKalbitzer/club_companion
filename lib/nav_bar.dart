@@ -17,6 +17,18 @@ class NavBar extends StatelessWidget {
           ListTile(
               tileColor: Colors.blue,
               title: const Text(
+                'Saved Music',
+                style:
+                    TextStyle(color: Colors.white, fontStyle: FontStyle.italic),
+              ),
+              onTap: () {
+                BlocProvider.of<PageCubit>(context)
+                    .returnPage(PageType.savedMusicPage);
+                //Navigator.of(context).pop(context);
+              }),
+          ListTile(
+              tileColor: Colors.blue,
+              title: const Text(
                 'Home Page',
                 style:
                     TextStyle(color: Colors.white, fontStyle: FontStyle.italic),

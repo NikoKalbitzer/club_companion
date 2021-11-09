@@ -9,3 +9,7 @@ class HomePageState extends PageState {
 class SecondPageState extends PageState {
   int counter = 0;
 }
+
+class SavedMusicPageState extends PageState {
+  List<MusicEntry> savedMusic = [MusicEntry("Metallica", "Enter Sandman")];
+}

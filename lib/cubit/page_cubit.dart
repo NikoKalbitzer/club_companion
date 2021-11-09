@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:club_companion/model/music_entry.dart';
 import 'package:club_companion/pages.dart';
 
 part 'page_state.dart';
@@ -10,6 +11,7 @@ class PageCubit extends Cubit<AppPage> {
 
   HomePageState _homePageState;
   SecondPageState _secondPageState = SecondPageState();
+  SavedMusicPageState _savedMusicPageState = SavedMusicPageState();
 
   //Saving method is not needed -> Calling reference is enough
   void saveCurrentState(
@@ -33,9 +35,12 @@ class PageCubit extends Cubit<AppPage> {
       case PageType.secondPage:
         emit(SecondPage(currentState: _secondPageState));
         break;
+      case PageType.savedMusicPage:
+        emit(SavedMusicPage(currentState: _savedMusicPageState));
+        break;
       default:
     }
   }
 }
 
-enum PageType { homePage, secondPage }
+enum PageType { homePage, secondPage, savedMusicPage }

@@ -1,3 +1,6 @@
+import 'dart:collection';
+
+import 'package:club_companion/model/music_entry.dart';
 import 'package:club_companion/nav_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +24,7 @@ class HomePage extends AppPage {
 
 class _HomePageState extends State<HomePage> {
   int _counter = 0;
+
   int _consecutiveShakes = 0;
   String _shaken = "false";
   int _lastShake = DateTime.now().millisecondsSinceEpoch;
@@ -30,7 +34,7 @@ class _HomePageState extends State<HomePage> {
   void _handleShake() {
     _newShake = DateTime.now().millisecondsSinceEpoch;
     _shakeTimeDiff = _newShake - _lastShake;
-    if (_shakeTimeDiff <= 1700 && _counter >= 4) {
+    if (_shakeTimeDiff <= 1700) {
       _consecutiveShakes++;
     } else {
       _consecutiveShakes = 0;
@@ -94,6 +98,41 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+class SavedMusicPage extends AppPage {
+  const SavedMusicPage({Key? key, required this.currentState})
+      : super(key: key);
+
+  final SavedMusicPageState currentState;
+  final String title = "Saved Music";
+  @override
+  State<SavedMusicPage> createState() => _SavedMusicPageState();
+}
+
+class _SavedMusicPageState extends State<SavedMusicPage> {
+  List<MusicEntry> savedMusic = [MusicEntry("Metallica", "Enter Sandman")];
+
+  @override
+  Widget build(BuildContext context) {
+    savedMusic = widget.currentState.savedMusic;
+
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        drawer: const NavBar(),
+        body: ListView.builder(
+          itemCount: savedMusic.length,
+          itemBuilder: (context, index) {
+            final item = savedMusic[index];
+            return ListTile(
+              title: item.buildTitle(context),
+              subtitle: item.buildSubtitle(context),
+            );
+          },
+        ));
+  }
+}
+
 class SecondPage extends AppPage {
   const SecondPage({Key? key, required this.currentState}) : super(key: key);
 
@@ -143,4 +182,31 @@ class _SecondPageState extends State<SecondPage> {
       ),
     );
   }
+}
+
+//TODO: refactor to different class
+abstract class ListItem {
+  /// The title line to show in a list item.
+  Widget buildTitle(BuildContext context);
+
+  /// The subtitle line, if any, to show in a list item.
+  Widget buildSubtitle(BuildContext context);
+}
+
+/// A ListItem that contains data to display a heading.
+class HeadingItem implements ListItem {
+  final String heading;
+
+  HeadingItem(this.heading);
+
+  @override
+  Widget buildTitle(BuildContext context) {
+    return Text(
+      heading,
+      style: Theme.of(context).textTheme.headline5,
+    );
+  }
+
+  @override
+  Widget buildSubtitle(BuildContext context) => const SizedBox.shrink();
 }
