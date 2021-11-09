@@ -11,5 +11,8 @@ class SecondPageState extends PageState {
 }
 
 class SavedMusicPageState extends PageState {
-  List<MusicEntry> savedMusic = [MusicEntry("Metallica", "Enter Sandman")];
+  List<MusicEntry> savedMusic = [
+    MusicEntry("Metallica", "Enter Sandman"),
+    MusicEntry("The Animals", "House of the Rising Sun")
+  ];
 }

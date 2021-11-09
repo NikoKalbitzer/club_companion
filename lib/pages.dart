@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:club_companion/model/music_entry.dart';
 import 'package:club_companion/nav_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:shake/shake.dart';
 
 import 'cubit/page_cubit.dart';
+
+import 'package:flutter_acrcloud/flutter_acrcloud.dart';
+
+const apiKey = "b8d121bbff175e0712de30db851f0fd2";
+const apiSecret = "8kIvp1EkmEnVITGu7IpGZNc8g9y0h6YZiHkJg0wC";
+const host = "identify-eu-west-1.acrcloud.com";
 
 abstract class AppPage extends StatefulWidget {
   const AppPage({Key? key}) : super(key: key);
@@ -41,12 +45,32 @@ class _HomePageState extends State<HomePage> {
     }
     if (_consecutiveShakes >= 4) {
       //todo alles in if raus und dafür den music shit
-      setState(() {
-        _shaken = "true";
-      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('recognizing music...'),
+      ));
+      //TODO recognize
+      //recognizeMusic();
     }
     _lastShake = DateTime.now().millisecondsSinceEpoch;
   }
+  /*
+  Future<MusicEntry>? recognizeMusic() async {
+    final session = ACRCloud.startSession();
+    final result = await session.result;
+    var music = null;
+    if (result == null) {
+      // Cancelled.
+      return Fu;
+    } else if (result.metadata == null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('No result.'),
+      ));
+      return;
+    }
+
+    music = result.metadata!.music.first;
+  }
+  */
 
   @override
   void initState() {
@@ -54,6 +78,7 @@ class _HomePageState extends State<HomePage> {
     ShakeDetector detector = ShakeDetector.autoStart(onPhoneShake: () {
       _handleShake();
     });
+    ACRCloud.setUp(ACRCloudConfig(apiKey, apiSecret, host));
     detector.startListening();
     // To close: detector.stopListening();
     // ShakeDetector.waitForStart() waits for user to call detector.startListening();
@@ -109,7 +134,7 @@ class SavedMusicPage extends AppPage {
 }
 
 class _SavedMusicPageState extends State<SavedMusicPage> {
-  List<MusicEntry> savedMusic = [MusicEntry("Metallica", "Enter Sandman")];
+  List<MusicEntry> savedMusic = [];
 
   @override
   Widget build(BuildContext context) {

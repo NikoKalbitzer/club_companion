@@ -12,7 +12,7 @@ class NavBar extends StatelessWidget {
         child: Material(
       color: Colors.blue,
       child: ListView(
-        padding: EdgeInsets.zero,
+        padding: EdgeInsets.only(top: 35.0),
         children: [
           ListTile(
               tileColor: Colors.blue,
